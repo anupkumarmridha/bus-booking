@@ -1,0 +1,8 @@
+.env
+env
+db.sqlite3
+accounts/migrations
+home/migrations
+accounts/__pycache__
+home/__pycache__
+busbooking/__pycache__
