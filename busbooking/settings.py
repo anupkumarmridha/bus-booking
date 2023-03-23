@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
     "ckeditor",
-    # to generate uml
+    "crispy_forms",
     "django_extensions",
 ]
 
