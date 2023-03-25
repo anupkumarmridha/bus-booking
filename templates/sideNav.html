@@ -5,22 +5,14 @@
   <div class="custom-body">
       {% if user.is_authenticated %}
 
-      {% if user.user_type == '1' or user.is_superuser %}
+      
       
       <ul class="sidenav-list">
-        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'viewStudentProfile' %}" class="dash-link">Profile</a></li>
-        <li class="sidenav-list-item"><i class="bi bi-list-ul"></i> <a href="{% url 'viewAttendance' %}" class="dash-link">view Attendance</a></li>
 
-        <li class="sidenav-list-item"><i class="bi bi-app-indicator"></i> <a href="{% url 'addAttendance' %}" class="dash-link">Give Attendance</a></li>
-        <li class="sidenav-list-item"><i class="bi bi-circle"></i> <a href="{% url 'subjects' %}" class="dash-link">View Subjects</a></li>
-        {% endif %}
-        
-        {% if user.user_type == '2' or user.is_superuser %}
-        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'viewFacultyProfile' %}" class="dash-link">Profile</a></li>
-        <li class="sidenav-list-item"><i class="bi bi-app-indicator"></i> <a href="{% url 'addSubject' %}" class="dash-link">Add Subjects</a></li>
-        <li class="sidenav-list-item"><i class="bi bi-circle"></i> <a href="{% url 'subjects' %}" class="dash-link">View Subjects</a></li>
-        {% endif %}
-             
+        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'homeView' %}" class="dash-link">Profile</a></li>
+        {% if user.is_superuser %}
+        <li class="sidenav-list-item"><i class="bi bi-list-ul"></i> <a href="{% url 'admin:login' %}" class="dash-link">Admin Portal</a></li>
+        {% endif %}     
         <li class="sidenav-list-item"><i class="bi bi-key-fill"></i> <a href="{% url 'password_change' %}" class="dash-link">Change Password</a>   </li>
         <ul class="login-btns">
           <li class="sidenav-list-item"> <a class="dash-link">
