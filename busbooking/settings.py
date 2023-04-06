@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     # added manually
     "django.contrib.humanize",
     "rest_framework",
-    "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
+    "home.apps.HomeConfig",
+    "booking.apps.BookingConfig",
+    "notification.apps.NotificationConfig",
     "ckeditor",
     "crispy_forms",
     "django_extensions",
