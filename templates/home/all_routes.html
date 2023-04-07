@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static %} {% comment %} {% include
+'base.html'%} {% endcomment %} {% block body %}
+
+<div class="container my-3">
+  <h2>All Routes</h2>
+
+  {% if AllRoutes %}
+  <table class="table">
+    <tbody>
+      <thead>
+        <tr>
+          <th scope="col">sno</th>
+          <th scope="col">route</th>
+          <th scope="col">departure_location</th>
+          <th scope="col">arrival_location</th>
+          <th scope="col">distance</th>
+          <th scope="col">travel_time</th>
+        </tr>
+      </thead>
+      {% for route in AllRoutes %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+          <a
+            href="{% url 'all_schedules' route.pk %}"
+            style="text-decoration: none"
+          >
+            {{route}}
+          </a>
+        </td>
+        <td>{{route.departure_location}}</td>
+        <td>{{route.arrival_location}}</td>
+        <td>{{route.distance}}</td>
+        <td>{{route.travel_time}}</td>
+      </tr>
+      {% endfor %} {% else %}
+
+      <div class="alert alert-dark" role="alert">No Routes</div>
+    </tbody>
+  </table>
+
+  {% endif %} {% endblock body %}
+</div>

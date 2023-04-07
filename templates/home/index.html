@@ -18,8 +18,55 @@
   </head>
  
     {% block body %}
-      
+    <div class="container-fluid bg-white my-5 p-2px" id="add-prod-css">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+          <h6>Welcome to the Bus Reservation System</h6>
+          <form method="get" action="{% url 'search' %}">
+            {% if routes %}
+            <div class="form-group">
+              <select class="form-select" name="route" aria-label="Default select example">
+                <option selected>Select Your Route</option>
+                {% for route in routes %}
+                <option value="{{route}}"> {{route.departure_location}}-{{route.arrival_location}}</option>
+                {% endfor %}
+              </select>            
+            </div>
+            {% else %}
+            <div class="form-group">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>No Routes Available</option>
+              </select>            
+            </div>
+            {% endif %}
 
+            <div class="form-group">
+              <label for="departure_location">Departure Location</label>
+              <input type="text" class="form-control" name="departure_location" id="departure_location" required>
+            </div>
+            <div class="form-group">
+              <label for="arrival_location">Arrival Location</label>
+              <input type="text" class="form-control" name="arrival_location" id="arrival_location" required>
+            </div>
+            <div class="form-group">
+              <label for="travel_date">Travel Date</label>
+              <input type="date" class="form-control" name="travel_date" id="travel_date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          {% if schedules %}
+          <h2>Available Schedules</h2>
+          <ul>
+            {% for schedule in schedules %}
+              <li>{{ schedule.bus.name }} - {{ schedule.route.departure_location }} to {{ schedule.route.arrival_location }} - {{ schedule.departure_time }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>No schedules found.</p>
+          {% endif %}
+        </div>
+      </div>
+      </div>
    
     <footer>© Local Bus Reservation System of Dhaka</footer>
     {% endblock body %}

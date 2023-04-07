@@ -3,10 +3,9 @@
     <h5 class="custom-title" id="offcanvasLabel">{{ user.username }}</h5>
   </div>
   <div class="custom-body">
-      {% if user.is_authenticated %}
 
-      
-      
+      {% if user.is_authenticated %}
+     
       <ul class="sidenav-list">
 
         <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'homeView' %}" class="dash-link">Profile</a></li>
@@ -42,10 +41,16 @@
             Sign up
           </button>
         </li>
+        
       </ul>
 
+      
       {% comment %} <a class="nav-link" type="button" class="btn btn-danger mr-2"
         href="{% url 'register' %}">Register</a> {% endcomment %}
       {% endif %}
+
+      <ul>
+        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'all_routes' %}" class="dash-link">All Routes</a></li>
+      </ul>
   </div>
 </div>

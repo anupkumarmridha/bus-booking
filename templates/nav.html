@@ -49,18 +49,23 @@
 </style>
 <!-- -----------------------------------Navbar start----------------------------------- -->
 <nav class="navbar navbar-expand-lg mb-2 fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand text-dark" href="/"><strong>Local Bus <br>Reservation System</strong></a>
-    <button class="navbar-toggler border-dark" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
+  <div class="container-fluid d-flex">
+    <a class="navbar-brand text-dark flex-grow-1 flex-shrink-1" href="/"
+      ><strong>Local Bus <br />Reservation System</strong></a
+    >
+    <button
+      class="navbar-toggler border-dark"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <i class="bi bi-list"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="nav ms-auto">
-        <!-- <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li> -->
+      <ul class="nav ms-auto flex-wrap">
         <li class="nav-item">
           <a class="nav-link" href="#">Reservation Policy</a>
         </li>
@@ -68,26 +73,44 @@
           <a class="nav-link" href="#">Contact Us</a>
         </li>
         <li class="nav-item dropdown notification-section">
-          <a href="#" class="notification dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="true">
+          <a
+            href="#"
+            class="notification dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="true"
+          >
             <span><i class="bi bi-bell-fill"></i></span>
             <span class="badge" id="notification-badge">0</span>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="notifications-dropdown"
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdown"
+            id="notifications-dropdown"
             data-popper-placement="bottom-end"
-            style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(-70px, 42px, 0px);">
-
+            style="
+              position: absolute;
+              inset: 0px auto auto 0px;
+              margin: 0px;
+              transform: translate3d(-70px, 42px, 0px);
+            "
+          >
             {% for i in notifications %}
             <li class="dropdown-item">{{i.message}}</li>
-            <hr class="dropdown-divider">
+            <hr class="dropdown-divider" />
             {% endfor %}
-
           </ul>
         </li>
       </ul>
 
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
 
@@ -98,29 +121,26 @@
 
 {{ room_name|json_script:"room-name" }}
 <script>
-  const roomName = JSON.parse(document.getElementById('room-name').textContent);
+  const roomName = JSON.parse(document.getElementById("room-name").textContent);
 
   const notificationSocket = new WebSocket(
-    'ws://'
-    + window.location.host
-    + '/ws/notification/'
-    + roomName
-    + '/'
+    "ws://" + window.location.host + "/ws/notification/" + roomName + "/"
   );
 
   notificationSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     //document.querySelector('#chat-log').value += (data.message + '\n');
     console.log(data);
-    document.getElementById("notifications-dropdown").innerHTML = "<li class='dropdown-item'>" + data + "</li><hr class='dropdown-divider'>" + document.getElementById("notifications-dropdown").innerHTML;
-    document.getElementById("notification-badge").innerHTML = parseInt(document.getElementById("notification-badge").innerHTML) + 1;
+    document.getElementById("notifications-dropdown").innerHTML =
+      "<li class='dropdown-item'>" +
+      data +
+      "</li><hr class='dropdown-divider'>" +
+      document.getElementById("notifications-dropdown").innerHTML;
+    document.getElementById("notification-badge").innerHTML =
+      parseInt(document.getElementById("notification-badge").innerHTML) + 1;
   };
 
   notificationSocket.onclose = function (e) {
-    console.error('Chat socket closed unexpectedly');
+    console.error("Chat socket closed unexpectedly");
   };
-
-
-
-
 </script>

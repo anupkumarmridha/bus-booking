@@ -18,7 +18,7 @@ nav {
     width: 100%;
     justify-content: space-between;
     padding: 1rem 2rem;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     background-color: white;
     margin-bottom: 0;
     font-weight: 300;
@@ -32,7 +32,7 @@ nav ul {
     list-style: none;
     display: flex;
     justify-content: space-around;
-    font-size: 1rem;
+    /* font-size: 1rem; */
 }
 
 nav ul li {
@@ -51,7 +51,7 @@ nav ul li button {
     background-color: transparent;
     padding: 0;
     margin: 0;
-    font-size: 1.6rem;
+    /* font-size: 1.6rem; */
     font-weight: 600;
     color: #2170B9;
     cursor: pointer;

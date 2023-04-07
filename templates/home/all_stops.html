@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% load static %} {% comment %} {% include
+'base.html'%} {% endcomment %} {% block body %}
+
+<div class="container my-3">
+  <h2>All Stops in {{AllStops.route}}</h2>
+
+  {% if AllStops %}
+  <table class="table">
+    <tbody>
+      <thead>
+        <tr>
+          <th scope="col">sno</th>
+          <th scope="col">route</th>
+          <th scope="col">location</th>
+          <th scope="col">arrival_time</th>
+          <th scope="col">departure_time</th>
+          <th scope="col">duration</th>
+          <th scope="col">Distance</th>
+        </tr>
+      </thead>
+      {% for stop in AllStops %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{stop.route}}</td>
+        <td>{{stop.location}}</td>
+        <td>{{stop.arrival_time}}</td>
+        <td>{{stop.departure_time}}</td>
+        <td>{{stop.duration}}</td>
+        <td>{{stop.km}}</td>
+      </tr>
+      {% endfor %} {% else %}
+
+      <div class="alert alert-dark" role="alert">No Stops</div>
+    </tbody>
+  </table>
+
+  {% endif %} {% endblock body %}
+</div>

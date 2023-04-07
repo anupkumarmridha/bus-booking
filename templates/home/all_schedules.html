@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% load static %} {% comment %} {% include
+'base.html'%} {% endcomment %} {% block body %}
+
+<div class="container my-3">
+  <h2>All Schedules on {{ route }}</h2>
+  <h4>
+    <a href="" type="button" class="btn btn-outline-success btn-sm mx-1"
+      >Book Now</a
+    >
+    <a
+      href="{% url 'all_stops' route.pk %}"
+      type="button"
+      class="btn btn-outline-primary btn-sm mx-1"
+      >Stops</a
+    >
+  </h4>
+  {% if AllSchedules %}
+  <table class="table">
+    <tbody>
+      <thead>
+        <tr>
+          <th scope="col">sno</th>
+          <th scope="col">Bus</th>
+
+          <th scope="col">departure_time</th>
+          <th scope="col">arrival_time</th>
+          <th scope="col">duration</th>
+        </tr>
+      </thead>
+      {% for schedule in AllSchedules %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{schedule.bus}}</td>
+        <td>{{schedule.departure_time}}</td>
+        <td>{{schedule.arrival_time}}</td>
+        <td>{{schedule.duration}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-dark" role="alert">No Schedule</div>
+  {% endif %} {% endblock body %}
+</div>
