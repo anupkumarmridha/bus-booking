@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+<div class="container-fluid bg-white my-5 p-5px" id="add-prod-css">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <h6>Welcome to the Bus Reservation System</h6>
+      <form method="get" action="">
+        <div class="form-group">
+          <select
+            class="form-select"
+            name="route"
+            aria-label="Default select example"
+          >
+            <option value="{{route}}" selected>
+              {{route.departure_location}}-{{route.arrival_location}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select
+            class="form-select"
+            name="source_location"
+            aria-label="Default select example"
+          >
+            <option selected>Select your Source Location</option>
+            {% for stop in AllStops %}
+            <option value="{{stop.location}}">
+              {{stop.location}} : {{stop.arrival_time}} -
+              {{stop.departure_time}}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <select
+            class="form-select"
+            name="destination_location"
+            aria-label="Default select example"
+          >
+            <option selected>Select your Destination Location</option>
+            {% for stop in AllStops %}
+            <option value="{{stop.location}}">
+              {{stop.location}} : {{stop.arrival_time}} -
+              {{stop.departure_time}}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="travel_date">Travel Date</label>
+          <input
+            type="date"
+            class="form-control"
+            name="travel_date"
+            id="travel_date"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock body %}

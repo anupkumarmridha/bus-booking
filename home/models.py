@@ -2,8 +2,8 @@ from django.db import models
 from accounts.models import User
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
-
-# models.py
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from django.db import models
 from django.urls import reverse
@@ -19,14 +19,43 @@ class Bus(models.Model):
     ]
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=20, choices=BUS_TYPES)
-    amenities = models.TextField(blank=True)
     capacity = models.IntegerField()
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.name} - {self.bus_no}"
+
+
+class Seat(models.Model):
+    SEAT_CATEGORIES = [
+        ("window_seat", "window_seat"),
+        ("aisle_seat", "aisle_seat"),
+    ]
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name='seat_set')
+    seat_number = models.CharField(max_length=10)
+    category = models.CharField(max_length=20, choices=SEAT_CATEGORIES)
+    is_available = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["bus", "seat_number"]
+
+    def __str__(self):
+        return f"{self.bus.name} - {self.seat_number} ({self.category})"
+
+
+@receiver(post_save, sender=Bus)
+def create_seats(sender, instance, created, **kwargs):
+    if created or instance.capacity != instance.seat_set.count():
+        Seat.objects.filter(bus=instance).delete()
+        for i in range(instance.capacity):
+            Seat.objects.create(
+                bus=instance,
+                seat_number=str(i + 1),
+                category="aisle_seat" if i % 2 == 0 else "window_seat",
+            )
 
 
 class Route(models.Model):
@@ -91,6 +120,8 @@ class Schedule(models.Model):
     arrival_time = models.TimeField()
     departure_time = models.TimeField()
     duration = models.DurationField(null=True, blank=True)
+    total_seats_on_bus = models.IntegerField(null=True, blank=True)
+    total_available_seats_on_bus = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -124,22 +155,9 @@ class Schedule(models.Model):
         Overrides the save method to calculate and set the duration field
         based on the arrival and departure times.
         """
+        self.total_seats_on_bus = self.bus.capacity
+        self.total_available_seats_on_bus = self.bus.seat_set.filter(
+            is_available=True
+        ).count()
         self.duration = self.get_duration()
         super().save(*args, **kwargs)
-
-
-class Seat(models.Model):
-    SEAT_CATEGORIES = [
-        ("standard", "Standard"),
-        ("deluxe", "Deluxe"),
-        ("vip", "VIP"),
-    ]
-    bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
-    seat_number = models.CharField(max_length=10)
-    category = models.CharField(max_length=20, choices=SEAT_CATEGORIES)
-    is_available = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.bus.name} - {self.seat_number} ({self.category})"

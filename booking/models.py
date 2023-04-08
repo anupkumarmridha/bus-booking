@@ -2,15 +2,22 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from home.models import Schedule
+from home.models import Schedule, Stop
 from accounts.models import User
 
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    source_location = models.ForeignKey(
+        Stop, on_delete=models.CASCADE, related_name="source_bookings"
+    )
+    destination_location = models.ForeignKey(
+        Stop, on_delete=models.CASCADE, related_name="destination_bookings"
+    )
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    seats = models.CharField(max_length=255)
+    total_seats = models.IntegerField(default=0)
     status = models.CharField(max_length=20, default="pending")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

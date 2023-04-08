@@ -21,7 +21,7 @@
       {% for stop in AllStops %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{stop.route}}</td>
+        <td>{{stop.route.departure_location}} - {{stop.location}}</td>
         <td>{{stop.location}}</td>
         <td>{{stop.arrival_time}}</td>
         <td>{{stop.departure_time}}</td>
