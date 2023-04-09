@@ -1,8 +1,10 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
 from django.db import models
-from home.models import Schedule, Stop
+from home.models import Schedule, Stop, Seat
 from accounts.models import User
 
 
@@ -15,14 +17,24 @@ class Booking(models.Model):
         Stop, on_delete=models.CASCADE, related_name="destination_bookings"
     )
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
+    seats = models.ManyToManyField(Seat)
     total_seats = models.IntegerField(default=0)
     status = models.CharField(max_length=20, default="pending")
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    travel_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.schedule.route.departure_location} to {self.schedule.route.arrival_location}"
+
+    def count_seats(self):
+        return self.seats.count()
+
+    def calculate_amount(self):
+        distance = self.destination_location.km - self.source_location.km
+        amount = distance * 10 * self.total_seats
+        return amount
 
 
 class Payment(models.Model):

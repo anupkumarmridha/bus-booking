@@ -32,7 +32,7 @@ class Seat(models.Model):
         ("window_seat", "window_seat"),
         ("aisle_seat", "aisle_seat"),
     ]
-    bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name='seat_set')
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name="seat_set")
     seat_number = models.CharField(max_length=10)
     category = models.CharField(max_length=20, choices=SEAT_CATEGORIES)
     is_available = models.BooleanField(default=True)
@@ -43,7 +43,7 @@ class Seat(models.Model):
         ordering = ["bus", "seat_number"]
 
     def __str__(self):
-        return f"{self.bus.name} - {self.seat_number} ({self.category})"
+        return f"{self.seat_number} - {self.bus.name} - ({self.category})"
 
 
 @receiver(post_save, sender=Bus)
