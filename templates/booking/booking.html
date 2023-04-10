@@ -22,11 +22,12 @@
           <select
             class="form-select"
             name="source_location"
+            id="source_location"
             aria-label="Default select example"
           >
             <option selected>Select your Source Location</option>
             {% for stop in AllStops %}
-            <option value="{{stop.pk}}">
+            <option value="{{stop.pk}}" data-distance="{{stop.km}}">
               {{stop.location}} : {{stop.arrival_time}} -
               {{stop.departure_time}}
             </option>
@@ -37,11 +38,12 @@
           <select
             class="form-select"
             name="destination_location"
+            id="destination_location"
             aria-label="Default select example"
           >
             <option selected>Select your Destination Location</option>
             {% for stop in AllStops %}
-            <option value="{{stop.pk}}">
+            <option value="{{stop.pk}}" data-distance="{{stop.km}}">
               {{stop.location}} : {{stop.arrival_time}} -
               {{stop.departure_time}}
             </option>
@@ -57,6 +59,7 @@
             id="total_price"
             name="total_price"
             value=""
+            readonly="true"
           />
         </div>
 
@@ -86,4 +89,35 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Get the source and destination selects and the total price input
+  const sourceSelect = document.querySelector('select[name="source_location"]');
+  const destinationSelect = document.querySelector(
+    'select[name="destination_location"]'
+  );
+  const totalPriceInput = document.getElementById("total_price");
+
+  // Listen for changes in the source and destination selects
+  sourceSelect.addEventListener("change", calculateTotalPrice);
+  destinationSelect.addEventListener("change", calculateTotalPrice);
+
+  function calculateTotalPrice() {
+    // Get the selected stops' distances
+    const sourceStop =
+      sourceSelect.options[sourceSelect.selectedIndex].dataset.distance;
+    const destinationStop =
+      destinationSelect.options[destinationSelect.selectedIndex].dataset
+        .distance;
+
+    // Calculate the total distance and price
+    const distance = destinationStop - sourceStop;
+    const pricePerKm = 10; // Change this to the actual price per km
+    const totalPrice = distance * pricePerKm;
+
+    // Set the total price input value
+    totalPriceInput.value = totalPrice;
+  }
+</script>
+
 {% endblock body %}
