@@ -1,13 +1,9 @@
 from django.db import models
 from accounts.models import User
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from django.db import models
-from django.urls import reverse
-from django.utils import timezone
 
 
 class Bus(models.Model):

@@ -22,7 +22,7 @@
     
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/personalModal.css" %}">
-    
+   
     {% block custom_css %}
     
     {% endblock custom_css %}
@@ -30,7 +30,7 @@
 
     <title>{% block title %}{% endblock title %}</title>
   </head>
-  <body>
+  <body class="dynamic-data">
       <div class="sidenav-container">
         {% include 'sideNav.html' %}
       </div>
@@ -38,7 +38,15 @@
         {% include 'nav.html' %}
     
         <!--End Navbar -->
-
+        <!--
+          <div id="dynamic-data-container" style="display:none;">
+            <div class="dynamic-data">...</div>
+            <div class="dynamic-data">...</div>
+            <div class="dynamic-data">...</div>
+            <div id="no-results-msg" style="display:none;">No results found.</div>
+          </div>
+        -->
+        
       
         {% if messages %} {% for message in messages %}
       
@@ -88,6 +96,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="{% static "js/script.js" %}"></script> 
+    <script type="text/javascript" src="{% static "js/search.js" %}"></script> 
 
   </body>
 </html>

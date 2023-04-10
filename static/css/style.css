@@ -1,73 +1,85 @@
-:root{
+:root {
     --cerulean: #4484ce;
     --aluminium: #FFFFFA;
     --light: #f9cf00;
     --tangerine: #f19f4d;
 }
-*{
+
+* {
     font-family: 'Montserrat', sans-serif;
 }
-body{
+
+body {
     background-color: var(--aluminium);
     overflow: visible !important;
 }
 
-.navbar{
+.navbar {
     background-color: var(--aluminium);
-    border-bottom: 1px solid rgba(0,0,0,.2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
     position: relative;
 }
-.nav-item a{
+
+.nav-item a {
     text-decoration: none;
     color: black;
     transition: all 0.5s ease-out;
     background-color: rgba(241, 159, 77, 0);
     border-radius: 4rem;
-    
+
 }
 
+
+
 /* Button animation */
-.btn:focus, .btn:hover {
+.btn:focus,
+.btn:hover {
     color: #0a58ca;
 }
 
-.cardcss{
+.cardcss {
     border-radius: 1rem;
     padding: 1rem;
 }
-.cardcss img{
+
+.cardcss img {
     height: 12rem;
     border-radius: 2rem;
     width: auto;
 }
-#add-prod-css{
+
+#add-prod-css {
     border-radius: 2rem;
     width: 50%;
 }
-#cke_id_desc{
+
+#cke_id_desc {
     width: 30rem;
 }
-.active{
+
+.active {
     background-color: var(--tangerine);
     border-radius: 3rem;
 }
 
-.profile-item-label{
+.profile-item-label {
     font-weight: bold;
 }
-.profile-item-content{
+
+.profile-item-content {
     color: #333;
 }
 
 @media only screen and (max-width: 922px) {
-    #add-prod-css{
+    #add-prod-css {
         width: 95%;
         margin: 0.5rem;
-        padding:0rem;
+        padding: 0rem;
     }
 }
-#add-prod{
-    text-decoration: none; 
+
+#add-prod {
+    text-decoration: none;
     border: 3px solid #f9cf00;
     background-color: #f9cf00;
     font-size: 2rem;
@@ -75,13 +87,15 @@ body{
     border-radius: 5rem;
     transition: all 0.8s;
 }
-#add-prod:hover{
+
+#add-prod:hover {
     border: 3px solid #f9cf00;
     color: #f9cf00;
     background-color: white;
 }
-#bid-prod{
-    text-decoration: none; 
+
+#bid-prod {
+    text-decoration: none;
     background-color: #f19f4d;
     border: 3px solid #f19f4d;
     color: white;
@@ -89,15 +103,18 @@ body{
     border-radius: 5rem;
     transition: all 0.8s;
 }
-#bid-prod:hover{
+
+#bid-prod:hover {
     border: 3px solid #f19f4d;
     color: #f19f4d;
     background-color: white;
 }
-.compL{
+
+.compL {
     animation: fadeInDown 4s;
 }
-.land-form{
+
+.land-form {
     animation: fadeInUp 3s;
 }
 
@@ -115,31 +132,34 @@ body{
     text-decoration: none;
 }
 
-@keyframes fadeInDown{
-    0%{
+@keyframes fadeInDown {
+    0% {
         opacity: 0.3;
         transform: translatey(-20rem);
     }
+
     /* 50%{
         opacity: 0.9;
         transform: translatey(-13rem);
     } */
-    100%{
-        opacity:1;
+    100% {
+        opacity: 1;
         transform: translatey(0);
     }
 }
-@keyframes fadeInUp{
-    0%{
+
+@keyframes fadeInUp {
+    0% {
         opacity: 0;
         transform: translatey(5rem);
     }
+
     /* 50%{
         opacity: 0.9;
         transform: translatey(-13rem);
     } */
-    100%{
-        opacity:1;
+    100% {
+        opacity: 1;
         transform: translatey(0);
     }
 }
@@ -199,16 +219,16 @@ body{
     margin-top: 2rem;
 }
 
-.detail-wrapper{
+.detail-wrapper {
     padding: 2rem;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 .login-btns {
@@ -244,7 +264,7 @@ div.sw-toolbar-elm.toolbar.toolbar-bottom {
     width: 230px;
     top: 0;
     left: 0;
-    border-right: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid rgba(0, 0, 0, .2);
     position: fixed;
     bottom: 0;
     z-index: 1045;

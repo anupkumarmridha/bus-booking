@@ -1,11 +1,12 @@
 from django.db import models
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 
 # Create your models here.
 from django.db import models
 from home.models import Schedule, Stop, Seat
 from accounts.models import User
+from notification.models import Notification
 
 
 class Booking(models.Model):
@@ -35,6 +36,33 @@ class Booking(models.Model):
         distance = self.destination_location.km - self.source_location.km
         amount = distance * 10 * self.total_seats
         return amount
+
+
+@receiver(pre_delete, sender=Booking)
+def set_seats_available(sender, instance, **kwargs):
+    for seat in instance.seats.all():
+        seat.is_available = True
+        seat.save()
+
+
+@receiver(post_save, sender=Booking)
+def create_notification(sender, instance, created, **kwargs):
+    if not created and instance.status == "pending":
+        # Booking was updated with new status
+        message = f"Your payment is {instance.status}"
+        notification_type = "booking_updated"
+    elif created and instance.status == "confirmed":
+        # New booking was created with confirmed status
+        message = f"Your booking ({instance.id}) has been confirmed."
+        notification_type = "booking_confirmed"
+    else:
+        # No new notification needed
+        return
+
+    # Create new Notification object for the user
+    notification = Notification.objects.create(
+        user=instance.user, message=message, notification_type=notification_type
+    )
 
 
 class Payment(models.Model):

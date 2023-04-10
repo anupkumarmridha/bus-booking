@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from home.models import Route, Stop, Seat, Schedule, Bus
 from booking.models import Booking
 from django.contrib import messages
@@ -16,28 +16,40 @@ def booking(request, route_id, schedule_id):
         user = request.user
         source_stop_id = request.POST.get("source_location")
         destination_stop_id = request.POST.get("destination_location")
+        print(source_stop_id)
+        if "Source Location" in source_stop_id:
+            messages.error(request, "Please select source Location!")
+            return redirect(reverse("booking", args=(route_id, schedule_id)))
+        if "Destination Location" in destination_stop_id:
+            messages.error(request, "Please select Destination Location!")
+            return redirect(reverse("booking", args=(route_id, schedule_id)))
+
+        total_price = request.POST.get("total_price")
         travel_date = request.POST.get("travel_date")
 
         source_location = Stop.objects.get(id=source_stop_id)
         destination_location = Stop.objects.get(id=destination_stop_id)
 
         seat_ids = request.POST.getlist("seat_ids")
-        print(seat_ids)
         seats = Seat.objects.filter(id__in=seat_ids)
-        distance = source_location.km - destination_location.km
-        print(distance)
+        print(seats)
+
         booking = Booking.objects.create(
             user=user,
             source_location=source_location,
             destination_location=destination_location,
             schedule=schedule,
-            travel_date=travel_date,
             total_seats=seats.count(),
+            amount=total_price,
+            travel_date=travel_date,
         )
         booking.seats.set(seats)
-        saved_booking = booking.save()
-        if saved_booking:
-            messages.success(request, "Success  😎")
+        for seat in seats:
+            seat.is_available = False
+            seat.save()
+        booking.save()
+
+        messages.success(request, "Success  😎")
 
     context = {
         "route": route,

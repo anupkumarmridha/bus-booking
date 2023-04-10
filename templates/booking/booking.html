@@ -24,8 +24,9 @@
             name="source_location"
             id="source_location"
             aria-label="Default select example"
+            required
           >
-            <option selected>Select your Source Location</option>
+            <option selected>Source Location</option>
             {% for stop in AllStops %}
             <option value="{{stop.pk}}" data-distance="{{stop.km}}">
               {{stop.location}} : {{stop.arrival_time}} -
@@ -40,8 +41,9 @@
             name="destination_location"
             id="destination_location"
             aria-label="Default select example"
+            required
           >
-            <option selected>Select your Destination Location</option>
+            <option selected>Destination Location</option>
             {% for stop in AllStops %}
             <option value="{{stop.pk}}" data-distance="{{stop.km}}">
               {{stop.location}} : {{stop.arrival_time}} -
@@ -60,11 +62,12 @@
             name="total_price"
             value=""
             readonly="true"
+            required
           />
         </div>
 
         <div class="form-group">
-          <select name="seat_ids" class="custom-select" multiple>
+          <select name="seat_ids" class="custom-select" multiple required>
             <option selected>Select Your Seat</option>
             {% for seat in allSeats %}
             <option value="{{seat.pk}}">

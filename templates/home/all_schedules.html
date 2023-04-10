@@ -28,13 +28,26 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{schedule.bus}}</td>
+
         <td>
+          {% if user.is_authenticated %}
           <a
             href="{% url 'booking' route.pk schedule.pk %}"
             type="button"
             class="btn btn-outline-success btn-sm mx-1"
             >Book Now</a
           >
+          {% else %}
+
+          <button
+            type="button"
+            class="btn btn-outline-success btn-sm mx-1"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+          >
+            Book Now
+          </button>
+          {% endif %}
         </td>
         <td>{{schedule.departure_time}}</td>
         <td>{{schedule.arrival_time}}</td>
