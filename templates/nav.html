@@ -74,7 +74,7 @@
         </li>
         <li class="nav-item dropdown notification-section">
           <a
-            href="#"
+            href="/notification/show_user_notifications"
             class="notification dropdown-toggle"
             id="navbarDropdown"
             role="button"
@@ -82,7 +82,7 @@
             aria-expanded="true"
           >
             <span><i class="bi bi-bell-fill"></i></span>
-            <span class="badge" id="notification-badge">0</span>
+            <span class="badge" id="notification-badge">{{ count }}</span>
           </a>
           <ul
             class="dropdown-menu"
@@ -95,12 +95,7 @@
               margin: 0px;
               transform: translate3d(-70px, 42px, 0px);
             "
-          >
-            {% for i in notifications %}
-            <li class="dropdown-item">{{i.message}}</li>
-            <hr class="dropdown-divider" />
-            {% endfor %}
-          </ul>
+          ></ul>
         </li>
       </ul>
 
@@ -126,28 +121,19 @@
   </div>
 </nav>
 
-{{ room_name|json_script:"room-name" }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-  const roomName = JSON.parse(document.getElementById("room-name").textContent);
-
-  const notificationSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/notification/" + roomName + "/"
-  );
-
-  notificationSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-    //document.querySelector('#chat-log').value += (data.message + '\n');
-    console.log(data);
-    document.getElementById("notifications-dropdown").innerHTML =
-      "<li class='dropdown-item'>" +
-      data +
-      "</li><hr class='dropdown-divider'>" +
-      document.getElementById("notifications-dropdown").innerHTML;
-    document.getElementById("notification-badge").innerHTML =
-      parseInt(document.getElementById("notification-badge").innerHTML) + 1;
-  };
-
-  notificationSocket.onclose = function (e) {
-    console.error("Chat socket closed unexpectedly");
-  };
+  $(document).ready(function () {
+    $(".notification").click(function () {
+      $.ajax({
+        url: "{% url 'show_user_notifications' %}",
+        success: function (response) {
+          $("#notifications-dropdown").html(response);
+          var count = $("#notifications-dropdown li").length;
+          $("#notification-badge").text(count).show();
+        },
+      });
+    });
+  });
 </script>

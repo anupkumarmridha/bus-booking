@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponse
 from home.models import Route, Stop, Seat, Schedule, Bus
 from booking.models import Booking
 from django.contrib import messages
+from django.contrib.auth.middleware import AuthenticationMiddleware
+from django.contrib.auth import get_user
 
 
 # Create your views here.
 def booking(request, route_id, schedule_id):
+    middleware = AuthenticationMiddleware(get_user)
+    middleware.process_request(request)
+    if not request.user.is_authenticated:
+        return HttpResponse("Submission outside this window is not allowed 😎")
     route = Route.objects.get(pk=route_id)
     AllStops = Stop.objects.filter(route=route).order_by("departure_time")
     schedule = Schedule.objects.get(pk=schedule_id)
@@ -58,3 +64,11 @@ def booking(request, route_id, schedule_id):
         "schedule": schedule,
     }
     return render(request, "booking/booking.html", context)
+
+
+def payment(request, booking_id):
+    book = Booking.objects.get(id=booking_id)
+    context = {
+        "book": book,
+    }
+    return render(request, "booking/payment.html", context)

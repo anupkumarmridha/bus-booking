@@ -24,6 +24,7 @@ def AllRoutes(request):
 def allSchedules(request, pk):
     route = Route.objects.get(id=pk)
     AllSchedules = Schedule.objects.filter(route=route).order_by("departure_time")
+
     context = {
         "AllSchedules": AllSchedules,
         "route": route,

@@ -29,14 +29,6 @@ class Booking(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.schedule.route.departure_location} to {self.schedule.route.arrival_location}"
 
-    def count_seats(self):
-        return self.seats.count()
-
-    def calculate_amount(self):
-        distance = self.destination_location.km - self.source_location.km
-        amount = distance * 10 * self.total_seats
-        return amount
-
 
 @receiver(pre_delete, sender=Booking)
 def set_seats_available(sender, instance, **kwargs):
@@ -63,6 +55,16 @@ def create_notification(sender, instance, created, **kwargs):
     notification = Notification.objects.create(
         user=instance.user, message=message, notification_type=notification_type
     )
+
+
+@receiver(post_save, sender=Booking)
+def update_schedule_total_available_seats_on_bus(sender, instance, **kwargs):
+    schedule = instance.schedule
+    total_available_seats_on_bus = schedule.bus.seat_set.filter(
+        is_available=True
+    ).count()
+    schedule.total_available_seats_on_bus = total_available_seats_on_bus
+    schedule.save()
 
 
 class Payment(models.Model):
