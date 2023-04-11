@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from home.models import Route, Stop, Seat, Schedule, Bus
-from booking.models import Booking
+from booking.models import Booking, Payment
 from django.contrib import messages
 from django.contrib.auth.middleware import AuthenticationMiddleware
 from django.contrib.auth import get_user
@@ -56,7 +56,7 @@ def booking(request, route_id, schedule_id):
         booking.save()
 
         messages.success(request, "Success  😎")
-
+        return redirect(makePayment, booking.pk)
     context = {
         "route": route,
         "AllStops": AllStops,
@@ -66,9 +66,36 @@ def booking(request, route_id, schedule_id):
     return render(request, "booking/booking.html", context)
 
 
-def payment(request, booking_id):
+def makePayment(request, booking_id):
+    book = Booking.objects.get(id=booking_id)
+    if request.method == "POST":
+        method = request.POST.get("method")
+        upi_id = request.POST.get("upi_id")
+        card_holder_name = request.POST.get("card_holder_name")
+        card_number = request.POST.get("card_number")
+        expiry_date = request.POST.get("expiry_date")
+        cvv = request.POST.get("cvv")
+        status = "paid"
+        if upi_id or (card_holder_name and card_number and expiry_date and cvv):
+            payment = Payment.objects.create(
+                booking_id=booking_id, method=method, amount=book.amount, status=status
+            )
+            payment.save()
+            book.status = "confirmed"
+            book.save()
+            messages.success(request, "confirmed  😎")
+            return redirect(bookingConfirmation, book.pk)
+    method_choices = Payment.METHOD_CHOICES
+    context = {
+        "book": book,
+        "method_choices": method_choices,
+    }
+    return render(request, "booking/payment.html", context)
+
+
+def bookingConfirmation(request, booking_id):
     book = Booking.objects.get(id=booking_id)
     context = {
         "book": book,
     }
-    return render(request, "booking/payment.html", context)
+    return render(request, "booking/confirm.html", context)

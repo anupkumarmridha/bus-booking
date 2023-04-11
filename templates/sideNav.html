@@ -13,6 +13,7 @@
         <li class="sidenav-list-item"><i class="bi bi-list-ul"></i> <a href="{% url 'admin:login' %}" class="dash-link">Admin Portal</a></li>
         {% endif %}     
         <li class="sidenav-list-item"><i class="bi bi-key-fill"></i> <a href="{% url 'password_change' %}" class="dash-link">Change Password</a>   </li>
+        <li class="sidenav-list-item"><i class="bi bi-arrow-down-up"></i> <a href= "{% url 'all_routes' %}" class="dash-link">All Routes</a></li>
         <ul class="login-btns">
           <li class="sidenav-list-item"> <a class="dash-link">
             <form action='{% url 'handleLogout' %}' method='post'>
@@ -44,13 +45,13 @@
         
       </ul>
 
-      
+      <ul>
+        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'all_routes' %}" class="dash-link">All Routes</a></li>
+      </ul>
       {% comment %} <a class="nav-link" type="button" class="btn btn-danger mr-2"
         href="{% url 'register' %}">Register</a> {% endcomment %}
       {% endif %}
 
-      <ul>
-        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'all_routes' %}" class="dash-link">All Routes</a></li>
-      </ul>
+      
   </div>
 </div>

@@ -3,6 +3,11 @@
 <div class="container my-3">
   <h2>All Schedules on {{ route }}</h2>
   <h4>
+    <div class="text-center">
+      <a href="{% url 'all_routes' %}" class="btn btn-primary"
+        >Back to All Routes</a
+      >
+    </div>
     <a
       href="{% url 'all_stops' route.pk %}"
       type="button"

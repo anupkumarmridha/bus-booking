@@ -77,9 +77,7 @@ class Payment(models.Model):
     METHOD_CHOICES = (
         ("credit_card", "Credit Card"),
         ("debit_card", "Debit Card"),
-        ("net_banking", "Net Banking"),
         ("upi", "UPI"),
-        ("wallet", "Wallet"),
     )
 
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)

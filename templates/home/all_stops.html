@@ -3,7 +3,13 @@
 
 <div class="container my-3">
   <h2>All Stops in {{AllStops.route}}</h2>
-
+  <h4>
+    <div class="text-center">
+      <a href="{% url 'all_schedules' route.pk %}" class="btn btn-primary"
+        >Back to All Schedules</a
+      >
+    </div>
+  </h4>
   {% if AllStops %}
   <table class="table">
     <tbody>

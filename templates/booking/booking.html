@@ -3,6 +3,13 @@
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8 col-sm-10">
       <h6>Welcome to the Bus Reservation System</h6>
+      <h4>
+        <div class="text-center">
+          <a href="{% url 'all_schedules' route.pk %}" class="btn btn-primary"
+            >Back to All Schedules</a
+          >
+        </div>
+      </h4>
 
       <form method="post" action="{% url 'booking' route.pk schedule.pk %}">
         {% csrf_token %}

@@ -8,7 +8,7 @@ def show_user_notifications(request):
     if not request.user.is_authenticated:
         return HttpResponse("Unauthorize user 😎")
     user = request.user
-    notifications = Notification.objects.filter(user=user)
+    notifications = Notification.objects.filter(user=user).order_by("-created_at")
     count = notifications.count()
     context = {
         "notifications": notifications,
