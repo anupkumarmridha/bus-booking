@@ -9,7 +9,7 @@
       <ul class="sidenav-list">
 
         <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'profile' %}" class="dash-link">Profile</a></li>
-        <li class="sidenav-list-item"><i class="bi bi-person-fill"></i> <a href= "{% url 'allBookings' %}" class="dash-link">Bookings</a></li>
+        <li class="sidenav-list-item"><i class="bi bi-journal-arrow-up"></i> <a href= "{% url 'allBookings' %}" class="dash-link">Bookings</a></li>
         {% if user.is_superuser %}
         <li class="sidenav-list-item"><i class="bi bi-list-ul"></i> <a href="{% url 'admin:login' %}" class="dash-link">Admin Portal</a></li>
         {% endif %}     

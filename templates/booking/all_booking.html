@@ -8,6 +8,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
+            <th scope="col">sno</th>
             <th>Booking ID</th>
             <th>User</th>
             <th>Bus Number</th>
@@ -19,11 +20,17 @@
         <tbody>
           {% for booking in allBookings %}
           <tr>
+            <th scope="row">{{ forloop.counter }}</th>
             <td>{{ booking.id }}</td>
             <td>{{ booking.user }}</td>
-            <td>{{ booking.bus_number }}</td>
-            <td>{{ booking.date }}</td>
-            <td>{{ booking.seat_number }}</td>
+            <td>{{ booking.schedule.bus }}</td>
+            <td>{{ booking.travel_date }}</td>
+            <td>
+                {% for seat in booking.seats.all %}
+                {{ seat.seat_number }}-{{ seat.category}}
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
             <td>{{ booking.status }}</td>
           </tr>
           {% empty %}

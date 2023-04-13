@@ -102,5 +102,7 @@ def bookingConfirmation(request, booking_id):
 
 
 def allBookings(request):
-    context = {"allBookings": ""}
+    user= request.user
+    allBookings=Booking.objects.filter(user=user)
+    context = {"allBookings":allBookings}
     return render(request, "booking/all_booking.html", context)
