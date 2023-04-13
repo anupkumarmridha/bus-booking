@@ -6,6 +6,8 @@ from accounts import resetPasswordView
 urlpatterns = [
     path("/signup/", views.handelSingup, name="handelSingup"),
     path("/login", views.handleLogin, name="handleLogin"),
+    path("/profile", views.profile, name="profile"),
+    path("edit_profile", views.UserEditView.as_view(), name="edit_profile"),
     path("/logout", views.handleLogout, name="handleLogout"),
     # operations regarding password changes
     path("password_change", resetPasswordView.password_change, name="password_change"),

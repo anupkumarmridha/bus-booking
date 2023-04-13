@@ -4,6 +4,25 @@ from django.contrib import messages
 from home import views
 from accounts.models import User
 from accounts.EmailBackEnd import EmailBackEnd
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
+from accounts.forms import EditProfileFrom
+
+
+def profile(request):
+    return render(request, "profile.html")
+
+
+class UserEditView(UpdateView):
+    form_class = EditProfileFrom
+    template_name = "edit_profile.html"
+    success_url = reverse_lazy("profile")
+
+    def get_object(self):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy("profile")
 
 
 def handelSingup(request):
