@@ -99,3 +99,8 @@ def bookingConfirmation(request, booking_id):
         "book": book,
     }
     return render(request, "booking/confirm.html", context)
+
+
+def allBookings(request):
+    context = {"allBookings": ""}
+    return render(request, "booking/all_booking.html", context)

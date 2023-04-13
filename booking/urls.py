@@ -10,4 +10,9 @@ urlpatterns = [
         views.bookingConfirmation,
         name="bookingConfirmation",
     ),
+    path(
+        "/all-bookings",
+        views.allBookings,
+        name="allBookings",
+    ),
 ]
