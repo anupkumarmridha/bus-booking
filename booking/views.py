@@ -92,6 +92,25 @@ def makePayment(request, booking_id):
     }
     return render(request, "booking/payment.html", context)
 
+def cancelBooking(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+
+    if request.method == 'POST':
+        bank_name = request.POST.get('bank_name')
+        account_number = request.POST.get('account_number')
+        ifsc_code = request.POST.get('ifsc_code')
+
+        # Perform the refund process here using the bank details provided.
+        # For this example, we'll just update the booking status to "cancelled".
+        booking.status = 'cancelled'
+        booking.save()
+
+        return redirect('allBookings')
+
+    context = {
+        'booking': booking,
+    }
+    return render(request, "booking/cancel.html", context)
 
 def bookingConfirmation(request, booking_id):
     book = Booking.objects.get(id=booking_id)

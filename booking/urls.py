@@ -11,6 +11,11 @@ urlpatterns = [
         name="bookingConfirmation",
     ),
     path(
+        "/booking-cancel/<int:booking_id>",
+        views.cancelBooking,
+        name="cancelBooking",
+    ),
+    path(
         "/all-bookings",
         views.allBookings,
         name="allBookings",

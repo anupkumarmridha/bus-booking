@@ -58,7 +58,7 @@ def create_notification(sender, instance, created, **kwargs):
         send_mail(
                 f"Booking confirmation ({instance.id})",
                 message,
-                "doremonmax2018@gmail.com",  # Replace with your email address
+                settings.EMAIL_FROM,  # Replace with your email address
                 [instance.user.email],  # Replace with the user's email address
                 fail_silently=False,
             )
@@ -66,6 +66,18 @@ def create_notification(sender, instance, created, **kwargs):
         # Booking status was updated to pending
         message = f"Your payment is {instance.status}"
         notification_type = "booking_updated"
+        
+    elif not created and instance.status == "cancelled":
+        # Booking status was updated to cancelled
+        message = f"Your booking ({instance.id}) has been cancelled."
+        notification_type = "booking_cancelled"
+        send_mail(
+                f"Booking cancelation ({instance.id})",
+                message,
+                settings.EMAIL_FROM,  # Replace with your email address
+                [instance.user.email],  # Replace with the user's email address
+                fail_silently=False,
+            )
     else:
         # No new notification needed
         return
