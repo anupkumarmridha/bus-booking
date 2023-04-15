@@ -157,3 +157,15 @@ GRAPH_MODELS = {
     "all_applications": True,
     "group_models": True,
 }
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_FROM = 'dakhalocalbus@gmail.com'
+EMAIL_HOST_USER = 'dakhalocalbus@gmail.com'  # Replace with your Gmail email address
+EMAIL_HOST_PASSWORD = 'jhdy8dyduyjbj'  # Replace with your Gmail password
+PASSWORD_RESET_TIMEOUT = 14400

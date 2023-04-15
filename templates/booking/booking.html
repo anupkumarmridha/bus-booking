@@ -60,6 +60,18 @@
           </select>
         </div>
 
+        
+
+        <div class="form-group">
+          <select name="seat_ids" class="custom-select" multiple required>
+            <option selected>Select Your Seat</option>
+            {% for seat in allSeats %}
+            <option value="{{seat.pk}}">
+              {{seat.seat_number}} - {{ seat.category }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
         <div class="form-group">
           <label>Total Price: </label>
           <input
@@ -72,18 +84,6 @@
             required
           />
         </div>
-
-        <div class="form-group">
-          <select name="seat_ids" class="custom-select" multiple required>
-            <option selected>Select Your Seat</option>
-            {% for seat in allSeats %}
-            <option value="{{seat.pk}}">
-              {{seat.seat_number}} - {{ seat.category }}
-            </option>
-            {% endfor %}
-          </select>
-        </div>
-
         <div class="form-group">
           <label for="travel_date">Travel Date</label>
           <input
@@ -103,31 +103,35 @@
 <script>
   // Get the source and destination selects and the total price input
   const sourceSelect = document.querySelector('select[name="source_location"]');
-  const destinationSelect = document.querySelector(
-    'select[name="destination_location"]'
-  );
+  const destinationSelect = document.querySelector('select[name="destination_location"]');
+  const seatSelect = document.querySelector('select[name="seat_ids"]');
   const totalPriceInput = document.getElementById("total_price");
 
-  // Listen for changes in the source and destination selects
+  // Listen for changes in the source and destination selects and the seat select
   sourceSelect.addEventListener("change", calculateTotalPrice);
   destinationSelect.addEventListener("change", calculateTotalPrice);
+  seatSelect.addEventListener("change", calculateTotalPrice);
 
   function calculateTotalPrice() {
     // Get the selected stops' distances
-    const sourceStop =
-      sourceSelect.options[sourceSelect.selectedIndex].dataset.distance;
-    const destinationStop =
-      destinationSelect.options[destinationSelect.selectedIndex].dataset
-        .distance;
+    const sourceStop = sourceSelect.options[sourceSelect.selectedIndex].dataset.distance;
+    const destinationStop = destinationSelect.options[destinationSelect.selectedIndex].dataset.distance;
 
     // Calculate the total distance and price
     const distance = destinationStop - sourceStop;
-    const pricePerKm = 10; // Change this to the actual price per km
-    const totalPrice = distance * pricePerKm;
+    const pricePerKm = 5; // Change this to the actual price per km
+    let totalPrice = distance * pricePerKm;
+    
+    // Get the number of selected seats and calculate the final price
+    const selectedSeats = document.querySelectorAll('select[name="seat_ids"] option:checked');
+    const numSeats = selectedSeats.length;
+    const seatPrice = 5; // Change this to the actual price per seat
+    totalPrice += numSeats * seatPrice;
 
     // Set the total price input value
-    totalPriceInput.value = totalPrice;
+    totalPriceInput.value = Math.abs(totalPrice);
   }
 </script>
+
 
 {% endblock body %}

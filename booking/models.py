@@ -7,7 +7,8 @@ from django.db import models
 from home.models import Schedule, Stop, Seat
 from accounts.models import User
 from notification.models import Notification
-
+from django.core.mail import send_mail
+from busbooking import settings
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -43,10 +44,24 @@ def create_notification(sender, instance, created, **kwargs):
         # New booking was created with confirmed status
         message = f"Your booking ({instance.id}) has been confirmed."
         notification_type = "booking_confirmed"
+        send_mail(
+                f"Booking confirmation ({instance.id})",
+                message,
+                settings.EMAIL_FROM,  # Replace with your email address
+                [instance.user.email],  # Replace with the user's email address
+                fail_silently=False,
+            )
     elif not created and instance.status == "confirmed":
         # Booking status was updated to confirmed
         message = f"Your booking ({instance.id}) has been confirmed."
         notification_type = "booking_confirmed"
+        send_mail(
+                f"Booking confirmation ({instance.id})",
+                message,
+                "doremonmax2018@gmail.com",  # Replace with your email address
+                [instance.user.email],  # Replace with the user's email address
+                fail_silently=False,
+            )
     elif not created and instance.status == "pending":
         # Booking status was updated to pending
         message = f"Your payment is {instance.status}"
@@ -54,15 +69,15 @@ def create_notification(sender, instance, created, **kwargs):
     else:
         # No new notification needed
         return
-
+    
     # Create the notification object
     Notification.objects.create(
         user=instance.user,
         message=message,
         notification_type=notification_type
     )
-
-
+        
+    
 
 @receiver(post_save, sender=Booking)
 def update_schedule_total_available_seats_on_bus(sender, instance, **kwargs):
