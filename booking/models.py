@@ -39,22 +39,29 @@ def set_seats_available(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Booking)
 def create_notification(sender, instance, created, **kwargs):
-    if not created and instance.status == "pending":
-        # Booking was updated with new status
-        message = f"Your payment is {instance.status}"
-        notification_type = "booking_updated"
-    elif created and instance.status == "confirmed":
+    if created and instance.status == "confirmed":
         # New booking was created with confirmed status
         message = f"Your booking ({instance.id}) has been confirmed."
         notification_type = "booking_confirmed"
+    elif not created and instance.status == "confirmed":
+        # Booking status was updated to confirmed
+        message = f"Your booking ({instance.id}) has been confirmed."
+        notification_type = "booking_confirmed"
+    elif not created and instance.status == "pending":
+        # Booking status was updated to pending
+        message = f"Your payment is {instance.status}"
+        notification_type = "booking_updated"
     else:
         # No new notification needed
         return
 
-    # Create new Notification object for the user
-    notification = Notification.objects.create(
-        user=instance.user, message=message, notification_type=notification_type
+    # Create the notification object
+    Notification.objects.create(
+        user=instance.user,
+        message=message,
+        notification_type=notification_type
     )
+
 
 
 @receiver(post_save, sender=Booking)
