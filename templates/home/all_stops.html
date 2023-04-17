@@ -2,7 +2,7 @@
 'base.html'%} {% endcomment %} {% block body %}
 
 <div class="container my-3">
-  <h2>All Stops in {{AllStops.route}}</h2>
+  <h2>All Stops in {{route}}</h2>
   <h4>
     <div class="text-center">
       <a href="{% url 'all_schedules' route.pk %}" class="btn btn-primary"

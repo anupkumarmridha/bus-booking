@@ -16,6 +16,12 @@ urlpatterns = [
         name="cancelBooking",
     ),
     path(
+        "/booking-cancel-refund-form/<int:booking_id>",
+        views.cancelBookingRefund,
+        name="cancelBookingRefund",
+    ),
+    
+    path(
         "/all-bookings",
         views.allBookings,
         name="allBookings",

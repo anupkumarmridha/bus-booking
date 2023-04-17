@@ -22,10 +22,11 @@
             {% if not forloop.last %}, {% endif %}
             {% endfor %}
           </p>
-          <p class="card-text">Refund Amount: {{ booking.get_refund_amount }}</p>
+          <p class="card-text">Refund Amount: {{ booking.amount }}</p>
         </div>
       </div>
-      <form action="{% url 'process_cancel_booking' booking.id %}" method="POST">
+      <p></p>
+      <form action="" method="POST">
         {% csrf_token %}
         <div class="mb-3">
           <label for="bank_name" class="form-label">Bank Name</label>
